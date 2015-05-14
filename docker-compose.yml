@@ -1,0 +1,92 @@
+haproxy:
+  image: tutum/haproxy
+  ports:
+    - "80:80"
+  links:
+    - varnish1
+    - varnish2
+varnish1:
+  image: jacksoncage/varnish
+  ports:
+    - "82:80"
+  links:
+    - web1
+    - web2
+    - web3
+    - web4
+  environment:
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web1
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web2
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web3
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web4
+    VARNISH_PORT: 80
+varnish2:
+  image: jacksoncage/varnish
+  ports:
+    - "81:80"
+  links:
+    - web1
+    - web2
+    - web3
+    - web4
+  environment:
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web1
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web2
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web3
+    VARNISH_BACKEND_PORT: 80
+    VARNISH_BACKEND_IP: web4
+    VARNISH_PORT: 80
+web1:
+   image: scottpgallagher/php5-mysql-apache2
+   volumes:
+     - .:/var/www/html/
+   links:
+     - db0
+     - nfs1
+     - memcached
+web2:
+   image: scottpgallagher/php5-mysql-apache2
+   volumes:
+     - .:/var/www/html/
+   links:
+     - db0
+     - nfs1
+     - memcached
+web3:
+   image: scottpgallagher/php5-mysql-apache2
+   volumes:
+     - .:/var/www/html/
+   links:
+     - db0
+     - nfs1
+     - memcached
+web4:
+   image: scottpgallagher/php5-mysql-apache2
+   volumes:
+     - .:/var/www/html/
+   links:
+     - db0
+     - nfs1
+     - memcached
+db0:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: test
+    MYSQL_DATABASE: wordpressmu
+    MYSQL_USER: replica
+    MYSQL_PASSWORD: replica
+nfs1:
+  image: cpuguy83/nfs-server
+  volumes:
+   - /var/www/wp-content/uploads
+memcached:
+  image: memcached
+  links: 
+   - db0
