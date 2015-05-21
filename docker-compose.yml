@@ -86,7 +86,17 @@ nfs1:
   image: cpuguy83/nfs-server
   volumes:
    - /var/www/wp-content/uploads
-memcached:
+mcrouter1:
+  image: jamescarr/mcrouter
+mcrouter2:
+  image: jamescarr/mcrouter
+memcached1:
   image: memcached
   links: 
    - db0
+   - mcrouter1
+memcached2:
+  image: memcached
+  links: 
+   - db0
+   - mcrouter2
