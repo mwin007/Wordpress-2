@@ -50,7 +50,7 @@ web1:
    links:
      - db0
      - nfs1
-     - memcached
+     - memcached1
 web2:
    image: scottpgallagher/php5-mysql-apache2
    volumes:
@@ -58,7 +58,7 @@ web2:
    links:
      - db0
      - nfs1
-     - memcached
+     - memcached1
 web3:
    image: scottpgallagher/php5-mysql-apache2
    volumes:
@@ -66,7 +66,7 @@ web3:
    links:
      - db0
      - nfs1
-     - memcached
+     - memcached1
 web4:
    image: scottpgallagher/php5-mysql-apache2
    volumes:
@@ -74,7 +74,7 @@ web4:
    links:
      - db0
      - nfs1
-     - memcached
+     - memcached1
 db0:
   image: mysql
   environment:
